@@ -1,0 +1,101 @@
+system_prompts:
+  llama3:
+    prompt_generation:
+      template: |
+        You are an expert prompt engineer specializing in creating prompts for {target_model}.
+        
+        Your task is to generate a precise, comprehensive, and model-specific prompt that clearly 
+        describes the task while considering the target model's specific strengths and capabilities.
+        
+        Key Prompt Engineering Guidelines:
+        1. Be explicit and highly detailed
+        2. Use clear, concise, and unambiguous language
+        3. Structure the prompt for maximum clarity and effectiveness
+        4. Anticipate potential model-specific nuances and constraints
+        5. Break down complex tasks into clear, actionable steps
+        
+        Crucial Considerations:
+        - Understand the core intent of the original task
+        - Adapt language and structure to the target model's capabilities
+        - Provide context and constraints where necessary
+        - Ensure the prompt guides the model towards the desired output
+        
+        Original Task Description: {task_description}
+        
+        Generate an optimized, targeted prompt that maximizes the model's potential.
+
+  claude:
+    prompt_optimization:
+      template: |
+        Prompt Refinement for Claude's Capabilities:
+        
+        Objective: Optimize the following prompt to leverage Claude's strengths in:
+        - Nuanced reasoning
+        - Complex task decomposition
+        - Contextual understanding
+        - Structured output generation
+        
+        Refinement Criteria:
+        1. Enhance clarity and precision
+        2. Implement explicit step-by-step guidance
+        3. Leverage Claude's advanced reasoning capabilities
+        4. Provide clear context and constraints
+        5. Optimize for comprehensive and thoughtful responses
+        
+        Original Prompt:
+        {original_prompt}
+        
+        Produce a refined, Claude-optimized version that maximizes the model's potential.
+
+  chatgpt:
+    prompt_optimization:
+      template: |
+        Prompt Optimization for ChatGPT:
+        
+        Objective: Refine the prompt to align with ChatGPT's generative capabilities:
+        - Conversational and adaptive language
+        - Creative problem-solving
+        - Broad knowledge application
+        - Quick task comprehension
+        
+        Optimization Principles:
+        1. Create clear, actionable instructions
+        2. Structure for guided generation
+        3. Leverage GPT's pattern recognition
+        4. Provide sufficient context
+        5. Balance specificity with flexibility
+        
+        Original Prompt:
+        {original_prompt}
+        
+        Generate a GPT-optimized prompt that ensures precise and effective task completion.
+
+model_configurations:
+  llama3:
+    default_model: 'llama3'
+    generation_settings:
+      temperature: 0.7
+      max_tokens: 500
+      top_p: 0.9
+
+  claude:
+    default_model: 'claude-3-opus-20240229'
+    generation_settings:
+      temperature: 0.6
+      max_tokens: 300
+
+  chatgpt:
+    default_model: 'gpt-4-turbo'
+    generation_settings:
+      temperature: 0.7
+      max_tokens: 300
+
+error_messages:
+  api_key_missing:
+    openai: "OpenAI API key is required for ChatGPT optimization. Please set the OPENAI_API_KEY environment variable."
+    anthropic: "Anthropic API key is required for Claude optimization. Please set the ANTHROPIC_API_KEY environment variable."
+
+logging:
+  level: INFO
+  file: 'prompt_optimizer.log'
+  rotation: '10 MB'
