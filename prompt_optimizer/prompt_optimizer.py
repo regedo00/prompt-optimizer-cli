@@ -40,14 +40,41 @@ class PromptOptimizer:
         :param anthropic_api_key: Anthropic API key
         """
         self.config_manager = config_manager
-        self.openai_client = (
-            openai.OpenAI(api_key=openai_api_key) if openai_api_key else None
-        )
-        self.anthropic_client = (
-            anthropic.Anthropic(api_key=anthropic_api_key)
-            if anthropic_api_key
-            else None
-        )
+        self._openai_client = None
+        self._anthropic_client = None
+        self._openai_api_key = openai_api_key
+        self._anthropic_api_key = anthropic_api_key
+        
+        # Cache model configs
+        self._model_configs = {}
+        self._system_prompts = {}
+
+    @property
+    def openai_client(self):
+        if self._openai_client is None and self._openai_api_key:
+            self._openai_client = openai.OpenAI(api_key=self._openai_api_key)
+        return self._openai_client
+
+    @property
+    def anthropic_client(self):
+        if self._anthropic_client is None and self._anthropic_api_key:
+            self._anthropic_client = anthropic.Anthropic(api_key=self._anthropic_api_key)
+        return self._anthropic_client
+
+    def _get_model_config(self, model_name: str) -> Dict:
+        """Cache and retrieve model configurations"""
+        if model_name not in self._model_configs:
+            self._model_configs[model_name] = self.config_manager.get_model_config(model_name)
+        return self._model_configs[model_name]
+
+    def _get_system_prompt(self, context: str, **kwargs) -> str:
+        """Cache and retrieve system prompts"""
+        cache_key = f"{context}_{hash(str(kwargs))}"
+        if cache_key not in self._system_prompts:
+            self._system_prompts[cache_key] = self.config_manager.get_system_prompt(
+                context=context, **kwargs
+            )
+        return self._system_prompts[cache_key]  
 
     def generate_and_optimize_prompt(
         self,

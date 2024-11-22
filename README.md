@@ -84,3 +84,6 @@ Edit `prompts_config.yml` to customize:
 - Model configurations
 - Error messages
 - Logging settings
+
+
+🤫 *This README.md file is LLM-generated* 🤫
